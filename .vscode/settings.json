@@ -1,0 +1,5 @@
+{
+    "javascript.inlayHints.propertyDeclarationTypes.enabled": false,
+    "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
+    "editor.detectIndentation": false
+}
