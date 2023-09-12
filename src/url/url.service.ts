@@ -4,6 +4,7 @@ import {
     NotFoundException,
     UnprocessableEntityException,
     InternalServerErrorException,
+    Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,6 +16,7 @@ import { ResponseData } from '../response/response.data';
 import { GetOriginalUrlDto } from './dtos/getOriginalUrl.dto';
 import { ShortenUrlDto } from './dtos/shortenUrl.dto';
 import { UrlDto } from './dtos/url.dto';
+import { AppLogger } from 'src/log/app-logger.service';
 
 @Injectable()
 export class UrlService {
@@ -24,6 +26,7 @@ export class UrlService {
         @InjectRepository(Url)
         private repo: Repository<Url>,
         private configService: ConfigService,
+        private logger: AppLogger,
     ) {
         this.baseURL = this.configService.get<string>('DEFAULT_BASE_URL');
     }
@@ -42,6 +45,8 @@ export class UrlService {
     }
 
     async shortenUrl(url: ShortenUrlDto) {
+
+        this.logger.log(`shortenUrl: ${JSON.stringify(url)}`);
 
         //checks if longurl is a valid URL
         if (!isURL(url.originalUrl)) {
@@ -105,7 +110,7 @@ export class UrlService {
             return response;
         }
         catch (error) {
-            console.log(error);
+            this.logger.error(error);
             throw new UnprocessableEntityException('ServerError');
         }
     }
@@ -128,7 +133,7 @@ export class UrlService {
             };
             return response;
         } catch (error) {
-            console.log(error);
+            this.logger.error(error);
             throw new UnprocessableEntityException('ServerError');
         }
     }

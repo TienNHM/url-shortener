@@ -2,14 +2,18 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { AppLogger } from './log/app-logger.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        bufferLogs: true,
+    });
 
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     app.enableCors({
         origin: "*"
     });
+    app.useLogger(app.get(AppLogger));
 
     const config = new DocumentBuilder()
         .setTitle('URL Shortener')
