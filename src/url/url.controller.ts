@@ -7,7 +7,7 @@ import { ShortenUrlDto } from './dtos/shortenUrl.dto';
 import { UrlDto } from './dtos/url.dto';
 
 @ApiTags('Url')
-@Controller()
+@Controller({ version: '1', path: 'url' })
 export class UrlController {
     private baseURL: string;
 

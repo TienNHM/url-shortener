@@ -4,7 +4,7 @@ import { SharedArray } from "k6/data";
 import { Rate } from "k6/metrics";
 import { randomString } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
-const VUS = 200;
+const VUS = 500;
 export let options = {
     // stages: [
     //   {duration: "1m", target: 400},
@@ -15,8 +15,8 @@ export let options = {
     rps: VUS
 };
 
-const API = 'shorten'
-var url = `http://localhost:3000/${API}`;
+const API = 'url/shorten'
+var url = `http://localhost:3000/v1/${API}`;
 const headers = {
     "Content-Type": "application/json",
     "Accept": "application/json"
